@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Newtab.css';
 import './Newtab.scss';
 
@@ -6,6 +6,14 @@ const Newtab = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
   const [editingIndex, setEditingIndex] = useState(-1);
+
+  useEffect(() => {
+    chrome.storage.local.get(['todos']).then((results) => {
+      if (results && results.todos) {
+        setTodos(results.todos)
+      }
+    });
+  }, []);
 
   const addTodo = () => {
     if (newTodo.trim() !== '') {
@@ -17,6 +25,7 @@ const Newtab = () => {
         setEditingIndex(-1);
       }
       setNewTodo('');
+      chrome.storage.local.set({todos: todos});
     }
   };
 
@@ -29,6 +38,7 @@ const Newtab = () => {
     const updatedTodos = [...todos];
     updatedTodos.splice(index, 1);
     setTodos(updatedTodos);
+    chrome.storage.local.set({todos: todos});
   };
 
   return (
