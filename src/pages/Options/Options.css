@@ -39,3 +39,14 @@ button {
 button:hover {
   background-color: darkblue;
 }
+
+.url-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.url-list li {
+  background-color: #f3f3f3;
+  padding: 10px;
+  margin-bottom: 5px;
+}

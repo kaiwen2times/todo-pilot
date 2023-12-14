@@ -1,17 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import './Options.css';
 
-interface Props {
-  title: string;
-}
+const Options: React.FC<Props> = () => {
+  const [url, setUrl] = useState('');
+  const [blockUrlList, setBlockUrlList] = useState([]);
 
-const Options: React.FC<Props> = ({ title }: Props) => {
-  const [blockedUrls, setBlockedUrls] = useState([])
+  const handleUrlChange = (e) => {
+    setUrl(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (url) {
+      setBlockUrlList([...blockUrlList, url]);
+      setUrl('');
+    }
+  };
 
   useEffect(() => {
-    chrome.storage.local.get(['blockedUrls']).then((results) => {
-      if (results && results.blockedUrls) {
-        setBlockedUrls(results.blockedUrls)
+    chrome.storage.local.get(['blockUrlList']).then((results) => {
+      if (results && results.blockUrlList) {
+        setBlockUrlList(results.blockUrlList)
       }
     });
   }, []);
@@ -20,19 +29,23 @@ const Options: React.FC<Props> = ({ title }: Props) => {
     <div className="settings-container">
       <h1>Settings</h1>
       <div className="setting-item">
-        <label>Username</label>
-        <input type="text" placeholder="Enter your username"/>
+        <label>Website URL</label>
+        <input 
+          type="url" 
+          placeholder="Enter website URL"
+          value={url}
+          onChange={handleUrlChange}
+        />
+        <button type="submit" onClick={handleSubmit}>Add URL</button>
       </div>
-      <div className="setting-item">
-        <label>Email</label>
-        <input type="email" placeholder="Enter your email"/>
-      </div>
-      <div className="setting-item">
-        <label>Enable Notifications</label>
-        <input type="checkbox"/>
-      </div>
-      <div className="setting-item">
-        <button>Save Changes</button>
+
+      <div className="url-list">
+        <h2>Saved URLs</h2>
+        <ul>
+          {blockUrlList.map((url, index) => (
+            <li key={index}>{url}</li>
+          ))}
+        </ul>
       </div>
     </div>
   );
