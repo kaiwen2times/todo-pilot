@@ -50,3 +50,8 @@ button:hover {
   padding: 10px;
   margin-bottom: 5px;
 }
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
