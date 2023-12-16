@@ -6,6 +6,14 @@ const Options = () => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [blockUrlList, setBlockUrlList] = useState<string[]>([]);
 
+  useEffect(() => {
+    chrome.storage.local.get(['blockUrlList']).then((results) => {
+      if (results && results.blockUrlList) {
+        setBlockUrlList(results.blockUrlList)
+      }
+    });
+  }, []);
+
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUrl(e.target.value);
     setErrorMessage('');
@@ -14,11 +22,19 @@ const Options = () => {
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (url && isValidUrl(url)) {
-      setBlockUrlList([...blockUrlList, url]);
+      const newList = [...blockUrlList, url];
+      setBlockUrlList(newList);
+      chrome.storage.local.set({blockUrlList: newList});
       setUrl('');
     } else {
       setErrorMessage('Invalid URL');
     }
+  };
+
+  const handleDelete = (index: number) => {
+    const newList = blockUrlList.filter((url, i) => i !== index);
+    setBlockUrlList(newList);
+    chrome.storage.local.set({blockUrlList: newList});
   };
 
   const isValidUrl =  (url: string) => {
@@ -28,14 +44,6 @@ const Options = () => {
     }
     return true;
   };
-
-  useEffect(() => {
-    chrome.storage.local.get(['blockUrlList']).then((results) => {
-      if (results && results.blockUrlList) {
-        setBlockUrlList(results.blockUrlList)
-      }
-    });
-  }, []);
 
   return (
     <div className="settings-container">
@@ -56,7 +64,10 @@ const Options = () => {
         <h2>Saved URLs</h2>
         <ul>
           {blockUrlList.map((url, index) => (
-            <li key={index}>{url}</li>
+            <li key={index}>
+              {url}
+              <span className="delete-icon" onClick={() => handleDelete(index)}> X </span>
+            </li>
           ))}
         </ul>
       </div>

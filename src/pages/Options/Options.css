@@ -1,12 +1,3 @@
-.OptionsContainer {
-  width: 100%;
-  height: 50vh;
-  font-size: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .settings-container {
   max-width: 600px;
   margin: auto;
@@ -22,7 +13,7 @@ label {
   margin-bottom: 5px;
 }
 
-input[type="text"], input[type="email"] {
+input[type="text"] {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -31,7 +22,8 @@ input[type="text"], input[type="email"] {
 button {
   background-color: blue;
   color: white;
-  padding: 10px 15px;
+  padding: 10px;
+  margin: 5px;
   border: none;
   cursor: pointer;
 }
@@ -54,4 +46,11 @@ button:hover {
 .error-message {
   color: red;
   margin-top: 10px;
+}
+
+.delete-icon {
+  margin-left: 10px;
+  cursor: pointer;
+  color: red;
+  font-weight: bold;
 }
