@@ -52,16 +52,20 @@ const Newtab = () => {
           value={newTodo}
           onChange={(e) => setNewTodo(e.target.value)}
         />
-        <button onClick={addTodo}>{editingIndex === -1 ? 'Add' : 'Update'}</button>
+        <button className="add-update-todo" onClick={addTodo}>{editingIndex === -1 ? 'Add' : 'Update'}</button>
       </div>
       <div className="todo-list">
         <ul>
           {todos.map((todo, index) => (
-            <li key={index}>
-              {todo}
-              <button onClick={() => editTodo(index)}>Edit</button>
-              <button onClick={() => deleteTodo(index)}>Delete</button>
-            </li>
+            <div key={index} className="todo-item-container">
+              <li className="todo-item">
+                {todo}
+              </li>
+              <div className="todo-buttons">
+                <button className="edit-todo" onClick={() => editTodo(index)}>Edit</button>
+                <button className="delete-todo" onClick={() => deleteTodo(index)}>Delete</button>
+              </div>
+            </div>
           ))}
         </ul>
       </div>
