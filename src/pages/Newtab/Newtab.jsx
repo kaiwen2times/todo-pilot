@@ -17,15 +17,17 @@ const Newtab = () => {
 
   const addTodo = () => {
     if (newTodo.trim() !== '') {
+      const updatedTodos = [...todos];
       if (editingIndex === -1) {
-        setTodos([...todos, newTodo]);
+        updatedTodos.push(newTodo)
+        setTodos(updatedTodos);
       } else {
-        todos[editingIndex] = newTodo;
-        setTodos([...todos]);
+        updatedTodos[editingIndex] = newTodo;
+        setTodos(updatedTodos);
         setEditingIndex(-1);
       }
       setNewTodo('');
-      chrome.storage.local.set({todos: todos});
+      chrome.storage.local.set({todos: updatedTodos});
     }
   };
 
@@ -35,10 +37,9 @@ const Newtab = () => {
   };
 
   const deleteTodo = (index) => {
-    const updatedTodos = [...todos];
-    updatedTodos.splice(index, 1);
+    const updatedTodos = todos.filter((_, i) => i !== index);
     setTodos(updatedTodos);
-    chrome.storage.local.set({todos: todos});
+    chrome.storage.local.set({todos: updatedTodos});
   };
 
   return (
