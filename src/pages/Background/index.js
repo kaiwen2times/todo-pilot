@@ -4,10 +4,13 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
   }
 });
 const checkUrl = (tabId, url) => {
-  chrome.storage.local.get(['blockUrlList']).then((result) => {
+  chrome.storage.local.get(['blockUrlList', 'todos']).then((result) => {
     const blockedUrls = result.blockUrlList || [];
-    if (blockedUrls.some(blockedUrl => url.includes(blockedUrl))) {
-      chrome.tabs.remove(tabId);
+    const todos = result.todos || [];
+    if (todos.length) {
+      if (blockedUrls.some(blockedUrl => url.includes(blockedUrl))) {
+        chrome.tabs.remove(tabId);
+      }
     }
   });
 };

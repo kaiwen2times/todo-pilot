@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Clock from './Clock'
 import './Newtab.css';
 import './Newtab.scss';
 
@@ -44,7 +45,8 @@ const Newtab = () => {
 
   return (
     <div className="todo-container">
-      <h1>Todo List</h1>
+      <Clock />
+      <h2>Todo List</h2>
       <div>
         <input
           type="text"
