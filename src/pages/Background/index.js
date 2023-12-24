@@ -5,7 +5,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
 });
 const checkUrl = (tabId, url) => {
   chrome.storage.local.get(['blockUrlList']).then((result) => {
-    const blockedUrls = result.blockedUrls || [];
+    const blockedUrls = result.blockUrlList || [];
     if (blockedUrls.some(blockedUrl => url.includes(blockedUrl))) {
       chrome.tabs.remove(tabId);
     }
