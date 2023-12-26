@@ -61,7 +61,7 @@ const Newtab = () => {
           {todos.map((todo, index) => (
             <div key={index} className="todo-item-container">
               <li className="todo-item">
-                {todo}
+              <font size="+1">{todo}</font>
               </li>
               <div className="todo-buttons">
                 <button className="edit-todo" onClick={() => editTodo(index)}>Edit</button>
